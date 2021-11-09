@@ -8,6 +8,7 @@ export default function App() {
     * Just a state variable we use to store our user's public wallet.
     */
   const [currentAccount, setCurrentAccount] = useState("");
+  const [totalWaves, setTotalWaves] = useState(null)
 
   /**
    * Create a variable here that holds the contract address after you deploy!
@@ -96,6 +97,23 @@ export default function App() {
     }
 }
 
+const showWave = async () => {
+  try {
+    const { ethereum } = window;
+
+      if (ethereum) {
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const signer = provider.getSigner();
+        const wavePortalContract = new ethers.Contract(contractAddress, contractABI, signer);
+
+        const totalwaves = await wavePortalContract.getTotalWaves();
+        setTotalWaves(totalwaves.toNumber());
+      }
+  } catch (err) {
+    console.log(err);
+  }
+}
+
   useEffect(() => {
     checkIfWalletIsConnected();
   }, []);
@@ -116,6 +134,11 @@ export default function App() {
         <button className="waveButton" onClick={wave}>
           Send me a wave
         </button>
+
+        <button className="waveButton" onClick={showWave}>
+          Show me total waves
+        </button>
+        {totalWaves !== null ? <div className="bio">{totalWaves} waves, sir!</div> : <div className="bio">Click the button above to see the total amount of waves</div>}
 
         {/*
         * If there is no currentAccount render this button
