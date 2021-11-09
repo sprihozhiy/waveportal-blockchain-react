@@ -131,14 +131,19 @@ const showWave = async () => {
         I am @terrykon and I work at a blockchain technology company. But I am a frontend developer and this is my first experience with blockchain. Connect your Ethereum wallet and wave at me!
         </div>
 
-        <button className="waveButton" onClick={wave}>
-          Send me a wave
-        </button>
+        
+        {currentAccount && (
+          <>
+            <button className="waveButton" onClick={wave}>
+              Send me a wave
+            </button>
 
-        <button className="waveButton" onClick={showWave}>
-          Show me total waves
-        </button>
-        {totalWaves !== null ? <div className="bio">{totalWaves} waves, sir!</div> : <div className="bio">Click the button above to see the total amount of waves</div>}
+            <button className="waveButton" onClick={showWave}>
+              Show me total waves
+            </button>
+            {totalWaves !== null ? <div className="bio">{totalWaves} waves, sir!</div> : <div className="bio">Click the button above to see the total amount of waves</div>}
+            </>
+        )}
 
         {/*
         * If there is no currentAccount render this button
