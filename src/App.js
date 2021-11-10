@@ -9,6 +9,7 @@ export default function App() {
     */
   const [currentAccount, setCurrentAccount] = useState("");
   const [allWaves, setAllWaves] = useState([]);
+  const [message, setMessage] = useState('');
 
   /**
    * Create a variable here that holds the contract address after you deploy!
@@ -37,6 +38,7 @@ export default function App() {
         const account = accounts[0];
         console.log("Found an authorized account:", account);
         setCurrentAccount(account);
+        getAllWaves();
       } else {
         console.log("No authorized account found")
       }
@@ -61,7 +63,7 @@ export default function App() {
 
       console.log("Connected", accounts[0]);
       setCurrentAccount(accounts[0]); 
-      getAllWaves();
+      
     } catch (error) {
       console.log(error)
     }
@@ -120,11 +122,12 @@ export default function App() {
 
         let count = await wavePortalContract.getTotalWaves();
         console.log("Retrieved total wave count...", count.toNumber());
-
+        console.log(message);
         /*
         * Execute the actual wave from your smart contract
         */
-        const waveTxn = await wavePortalContract.wave("this is a message");
+        const waveTxn = await wavePortalContract.wave(message);
+        setMessage('');
         console.log("Mining...", waveTxn.hash);
 
         await waveTxn.wait();
@@ -142,6 +145,7 @@ export default function App() {
 
   useEffect(() => {
     checkIfWalletIsConnected();
+    // eslint-disable-next-line
   }, []);
 
   
@@ -163,6 +167,10 @@ export default function App() {
             <button className="waveButton" onClick={wave}>
               Send me a wave
             </button>
+
+            <div className="waveText">
+              <textarea type="text" name="message" rows="4" cols="74" onChange={event => setMessage(event.target.value)}></textarea>
+            </div>
 
             {allWaves.map((wave, index) => {
               return (
