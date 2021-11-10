@@ -14,7 +14,7 @@ export default function App() {
   /**
    * Create a variable here that holds the contract address after you deploy!
    */
-   const contractAddress = '0x664Ec8F800570326CdDa40C6152347Ef5Bb9d3e7';
+   const contractAddress = '0x7aF18FF875Db809aF6d17D70718D52bf101d73c7';
 
    const contractABI = abi.abi;
     
